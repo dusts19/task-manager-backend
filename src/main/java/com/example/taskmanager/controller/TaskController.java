@@ -1,0 +1,91 @@
+package com.example.taskmanager.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.taskmanager.model.Task;
+import com.example.taskmanager.model.User;
+import com.example.taskmanager.service.TaskService;
+import com.example.taskmanager.service.UserService;
+
+
+
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/tasks")
+public class TaskController {
+	
+	@Autowired
+	TaskService tService;
+	
+	@Autowired
+	UserService uService;
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Task>> getTasks() {
+		List<Task> tasks = tService.getTasks();
+		return ResponseEntity.ok(tasks);
+	}
+	
+	
+	@GetMapping
+	public ResponseEntity<List<Task>> getTasksByUser(@AuthenticationPrincipal UserDetails userDetails) {
+		User user = uService.findByUsername(userDetails.getUsername());
+		List<Task> tasks = tService.getTasksByUser(user);
+		return ResponseEntity.ok(tasks);
+	}
+	
+	@GetMapping("/{taskId}")
+	public ResponseEntity<Task> getTaskById(@PathVariable long taskId) {
+		Task task = tService.getTaskById(taskId);
+		return ResponseEntity.ok(task);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Task> addTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+		Task createdTask = tService.addTask(task, userDetails.getUsername());
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+	}
+	
+	@PutMapping
+	public ResponseEntity<Task> updateTask(@RequestBody Task task) {
+		Task updatedTask = tService.updateTask(task);
+		return ResponseEntity.ok(updatedTask);
+	}
+	
+	@DeleteMapping("/{taskId}")
+	public ResponseEntity<Void> deleteTask(@PathVariable long taskId) {
+		tService.deleteTask(taskId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/{taskId}/priority")
+	public ResponseEntity<Task> updateTaskPriority(@PathVariable long id, @RequestParam Task.Priority priority) {
+		Task updatedTask = tService.updateTaskPriority(id, priority);
+		return ResponseEntity.ok(updatedTask);
+	}
+	
+	@GetMapping("/search")
+	public ResponseEntity<List<Task>> getTasksByName(@RequestParam String taskTitle, @AuthenticationPrincipal UserDetails userDetails) {
+		User user = uService.findByUsername(userDetails.getUsername());
+		List<Task> tasks = tService.getTasksByUserAndTitle(user, taskTitle);
+		return ResponseEntity.ok(tasks);
+	}
+	
+}

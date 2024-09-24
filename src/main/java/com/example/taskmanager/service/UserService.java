@@ -1,0 +1,82 @@
+package com.example.taskmanager.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.taskmanager.model.Task;
+import com.example.taskmanager.model.User;
+import com.example.taskmanager.repository.TaskRepo;
+import com.example.taskmanager.repository.UserRepo;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	UserRepo uRepo;
+	
+	@Autowired
+	TaskRepo tRepo;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	public List<User> getUsers(){
+		return uRepo.findAll();
+	}
+	
+	public User getUserById(long id) {
+		return uRepo.findById(id).orElse(new User());
+	}
+	
+	public User findByUsername(String username) {
+		return uRepo.findByUsername(username)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+	}
+	
+	public User createUser(User user) {
+		return uRepo.save(user);
+	}
+//	public void addUser(User user) {
+//		uRepo.save(user);
+//	}
+
+	public User updateUser(long id, User user) {
+		User existingUser = uRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		existingUser.setUsername(user.getUsername());
+		existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		return uRepo.save(existingUser);
+	}
+//	public void updateUser(User user) {
+//		uRepo.save(user);
+//	}
+
+	public void deleteUser(long id) {
+		uRepo.deleteById(id);
+	}
+	
+	public Task createTaskForUser(long id, Task task) {
+		User user = uRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		task.setUser(user);
+		return tRepo.save(task);
+	}
+	
+	public User authenticateUser(String username, String password) {
+		User user = uRepo.findByUsername(username)
+				.orElseThrow(() -> new RuntimeException("Invalid credentials"));
+		
+		if (passwordEncoder.matches(password, user.getPassword())) {
+			return user;
+		} else {
+			throw new RuntimeException("Invalid credentials");
+		}
+		
+	}
+//	public User authenticateUser(String username, String password) {
+//		return uRepo.findByUsernameAndPassword(username, password)
+//				.orElseThrow(() -> new RuntimeException("Invalid credentials"));
+//	}
+}
