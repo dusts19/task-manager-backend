@@ -11,5 +11,5 @@ import com.example.taskmanager.model.User;
 @Repository
 public interface TaskRepo extends JpaRepository<Task, Long>{
 	List<Task> findByUser(User user);
-	List<Task> findByUserAndTaskTitleContaining(User user, String taskTitle);
+	List<Task> findByUserAndTasktitleContaining(User user, String tasktitle);
 }

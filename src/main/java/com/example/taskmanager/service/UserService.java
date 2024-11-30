@@ -1,13 +1,16 @@
 package com.example.taskmanager.service;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.taskmanager.model.Role;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
+import com.example.taskmanager.repository.RoleRepo;
 import com.example.taskmanager.repository.TaskRepo;
 import com.example.taskmanager.repository.UserRepo;
 
@@ -16,6 +19,9 @@ public class UserService {
 	
 	@Autowired
 	UserRepo uRepo;
+	
+	@Autowired
+	RoleRepo rRepo;
 	
 	@Autowired
 	TaskRepo tRepo;
@@ -37,6 +43,19 @@ public class UserService {
 	}
 	
 	public User createUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		if (user.getRoles() == null) {
+			user.setRoles(new HashSet<>());
+		}
+		
+		if (user.getRoles().isEmpty()) {
+			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
+			user.getRoles().add(userRole);
+		}
+		
+		System.out.println("User roles before saving: " + user.getRoles());
+		
 		return uRepo.save(user);
 	}
 //	public void addUser(User user) {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.taskmanager.dto.JwtResponse;
 import com.example.taskmanager.dto.LoginRequest;
 import com.example.taskmanager.model.User;
-import com.example.taskmanager.model.User.Role;
+//import com.example.taskmanager.model.User.Role;
 import com.example.taskmanager.service.UserService;
 import com.example.taskmanager.util.JwtUtil;
 
@@ -37,10 +37,11 @@ public class AuthController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<JwtResponse> registerUser(@RequestBody User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.getRoles().add(Role.USER);
 		User createdUser = service.createUser(user);
 		String token = jwtUtil.generateToken(createdUser.getUsername());
+		
+		System.out.println("User roles: " + createdUser.getRoles());
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(new JwtResponse(token));
 	}
 	

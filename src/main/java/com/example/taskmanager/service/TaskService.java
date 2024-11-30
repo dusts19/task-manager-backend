@@ -23,8 +23,8 @@ public class TaskService {
 		return repo.findByUser(user);
 	}
 	
-	public List<Task> getTasksByUserAndTitle(User user, String taskTitle){
-		return repo.findByUserAndTaskTitleContaining(user, taskTitle);
+	public List<Task> getTasksByUserAndTitle(User user, String tasktitle){
+		return repo.findByUserAndTasktitleContaining(user, tasktitle);
 	}
 	
 	public List<Task> getTasks(){
@@ -52,7 +52,7 @@ public class TaskService {
 	public Task updateTaskPriority(long id, Task.Priority priority) {
 		Task task = getTaskById(id);
 		if (task != null) {
-			task.setTaskPriority(priority);
+			task.setTaskpriority(priority);
 			return repo.save(task);
 		}
 		return null;

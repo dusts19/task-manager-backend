@@ -21,17 +21,17 @@ public class Task {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long taskId;
-	private String taskTitle;
-	private String taskDescription;
-	private boolean taskCompleted;
+	private long taskid;
+	private String tasktitle;
+	private String taskdescription;
+	private boolean taskcompleted;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@JsonBackReference
 	private User user;
 	
-	private Priority taskPriority;
+	private Priority taskpriority;
 	
 	public enum Priority {
 		LOW, MEDIUM, HIGH
