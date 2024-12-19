@@ -1,13 +1,21 @@
+networks:
+  custom_network:
+    driver: bridge
+
 services:
   backend:
     image: task-manager-app:latest
     build:
       context: .
       dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
-      - "8081:8081"
+      - "8082:8081"
+    env_file:
+      - .env
     depends_on:
-      - database
+      postgres:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: /run/secrets/db_url
@@ -17,8 +25,16 @@ services:
       - db_url
       - db_username
       - db_password
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 20s
+      timeout: 60s
+      retries: 5
+    networks:
+      - custom_network
 
-  database:
+
+  postgres:
     image: postgres:13
     environment:
       POSTGRES_DB: docker-task-manager-db
@@ -27,10 +43,19 @@ services:
     secrets:
       - db_username
       - db_password
+    env_file:
+        - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d docker-task-manager-db -h localhost"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+    networks:
+      - custom_network
 
 secrets:
   db_url:

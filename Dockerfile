@@ -13,6 +13,8 @@ WORKDIR /home/appuser/app
 COPY target/task-manager-0.0.1-SNAPSHOT.jar app.jar
 #COPY target/*.jar app.jar
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+EXPOSE 8082
+
+ENTRYPOINT ["java", "-jar", "/home/appuser/app/app.jar"]
 
 

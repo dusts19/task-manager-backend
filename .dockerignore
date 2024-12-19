@@ -12,7 +12,7 @@
 **/.DS_Store
 **/.classpath
 **/.dockerignore
-**/.env
+# **/.env
 **/.factorypath
 **/.git
 **/.gitignore
@@ -65,4 +65,3 @@ pom.xml.tag
 pom.xml.versionsBackup
 release.properties
 replay_pid*
-.env

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.taskmanager.dto.TaskDTO;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.service.TaskService;
@@ -57,15 +58,45 @@ public class TaskController {
 		return ResponseEntity.ok(task);
 	}
 	
+//	@PostMapping
+//	public ResponseEntity<Task> addTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+//		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//		}
+//		Task createdTask = tService.addTask(task, userDetails.getUsername());
+//		return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+//	}
+
 	@PostMapping
-	public ResponseEntity<Task> addTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
-		Task createdTask = tService.addTask(task, userDetails.getUsername());
+	public ResponseEntity<Task> addTask(@RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
+		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+		User user = uService.getUserById(taskDTO.getUserid());
+		if (user == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		Task task = new Task();
+		task.setTasktitle(taskDTO.getTasktitle());
+		task.setTaskdescription(taskDTO.getTaskdescription());
+		task.setTaskcompleted(taskDTO.isTaskcompleted());
+		task.setTaskpriority(taskDTO.getTaskpriority());
+		task.setUser(user);
+		
+		
+		Task createdTask = tService.addTask(task);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
 	}
 	
+	
+	
 	@PutMapping
-	public ResponseEntity<Task> updateTask(@RequestBody Task task) {
-		Task updatedTask = tService.updateTask(task);
+	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
 		return ResponseEntity.ok(updatedTask);
 	}
 	

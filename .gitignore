@@ -36,5 +36,9 @@ application-dev.properties
 application-prod.properties
 
 .env
+secrets/db_url.txt
+secrets/db_username.txt
+secrets/db_password.txt
+secrets/db-url.txt
 secrets/db-username.txt
 secrets/db-password.txt

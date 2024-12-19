@@ -34,14 +34,19 @@ public class TaskService {
 	public Task getTaskById(long taskId) {
 		return repo.findById(taskId).orElse(new Task());
 	}
-	
-	public Task addTask(Task task, String username) {
-		User user = userService.findByUsername(username);
-		task.setUser(user);
+
+	public Task addTask(Task task) {
 		return repo.save(task);
 	}
+//	public Task addTask(Task task, String username) {
+//		User user = userService.findByUsername(username);
+//		task.setUser(user);
+//		return repo.save(task);
+//	}
 
-	public Task updateTask(Task task) {
+	public Task updateTask(Task task, String username) {
+		User user = userService.findByUsername(username);
+		task.setUser(user);
 		return repo.save(task);
 	}
 	

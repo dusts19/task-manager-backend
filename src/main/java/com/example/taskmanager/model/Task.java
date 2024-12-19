@@ -2,7 +2,10 @@ package com.example.taskmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,8 +25,14 @@ public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long taskid;
+	
+	@Column(nullable = false)
 	private String tasktitle;
+	
+	@Column(nullable = false)
 	private String taskdescription;
+	
+	@Column(nullable = false)
 	private boolean taskcompleted;
 	
 	@ManyToOne
@@ -31,6 +40,8 @@ public class Task {
 	@JsonBackReference
 	private User user;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Priority taskpriority;
 	
 	public enum Priority {
