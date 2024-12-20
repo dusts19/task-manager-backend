@@ -8,6 +8,8 @@
 !docker-images
 !target
 !app
+!src
+!pom.xml
 
 **/.DS_Store
 **/.classpath
