@@ -19,8 +19,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME_FILE: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD_FILE: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
       interval: 20s
@@ -34,8 +34,8 @@ services:
     image: postgres:13
     environment:
       POSTGRES_DB: docker-task-manager-db
-      POSTGRES_USER_FILE: ${SPRING_DATASOURCE_USERNAME}
-      POSTGRES_PASSWORD_FILE: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     env_file:
         - .env
     volumes:
