@@ -21,10 +21,6 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME_FILE: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD_FILE: ${SPRING_DATASOURCE_PASSWORD}
-    secrets:
-      - db_url
-      - db_username
-      - db_password
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
       interval: 20s
@@ -40,9 +36,6 @@ services:
       POSTGRES_DB: docker-task-manager-db
       POSTGRES_USER_FILE: ${SPRING_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD_FILE: ${SPRING_DATASOURCE_PASSWORD}
-    secrets:
-      - db_username
-      - db_password
     env_file:
         - .env
     volumes:
@@ -56,14 +49,6 @@ services:
       retries: 5
     networks:
       - custom_network
-
-secrets:
-  db_url:
-    file: ./secrets/db_url.txt
-  db_username:
-    file: ./secrets/db_username.txt
-  db_password:
-    file: ./secrets/db_password.txt	
 
 volumes:
    pgdata:
