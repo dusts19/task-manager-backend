@@ -18,9 +18,9 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: /run/secrets/db_url
-      SPRING_DATASOURCE_USERNAME_FILE: /run/secrets/db_username
-      SPRING_DATASOURCE_PASSWORD_FILE: /run/secrets/db_password
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME_FILE: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD_FILE: ${SPRING_DATASOURCE_PASSWORD}
     secrets:
       - db_url
       - db_username
@@ -38,8 +38,8 @@ services:
     image: postgres:13
     environment:
       POSTGRES_DB: docker-task-manager-db
-      POSTGRES_USER_FILE: /run/secrets/db_username
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_USER_FILE: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD_FILE: ${SPRING_DATASOURCE_PASSWORD}
     secrets:
       - db_username
       - db_password
@@ -50,7 +50,7 @@ services:
     ports:
       - "5434:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d docker-task-manager-db -h localhost"]
+      test: ["CMD-SHELL", "pg_isready -U ${SPRING_DATASOURCE_USERNAME} -d docker-task-manager-db -h localhost"]
       interval: 30s
       timeout: 60s
       retries: 5
