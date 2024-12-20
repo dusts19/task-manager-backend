@@ -12,7 +12,6 @@
 **/.DS_Store
 **/.classpath
 **/.dockerignore
-# **/.env
 **/.factorypath
 **/.git
 **/.gitignore
