@@ -10,18 +10,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AppConfig {
-	@Value("${SPRING_DATASOURCE_URL}")
+	@Value("${LOCAL_DB_URL}")
 	private String localDbUrl;
 	
 	@Value("${SPRING_DATASOURCE_URL}")
 	private String dockerDbUrl;
+	
 
-//	@Value("${LOCAL_DB_URL}")
+//	@Value("${SPRING_DATASOURCE_URL}")
 //	private String localDbUrl;
 //	
-//	@Value("${DOCKER_DB_URL}")
+//	@Value("${SPRING_DATASOURCE_URL}")
 //	private String dockerDbUrl;
-//	
 	
 	@Value("${DB_USERNAME}")
 	private String dbUsername;
