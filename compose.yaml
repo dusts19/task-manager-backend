@@ -29,31 +29,6 @@ services:
     networks:
       - custom_network
 
-
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: docker-task-manager-db
-      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
-      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-    env_file:
-        - .env
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${SPRING_DATASOURCE_USERNAME} -d docker-task-manager-db -h localhost"]
-      interval: 30s
-      timeout: 60s
-      retries: 5
-    networks:
-      - custom_network
-
-volumes:
-   pgdata:
-
-
 ## Comments are provided throughout this file to help you get started.
 ## If you need more help, visit the Docker Compose reference guide at
 ## https://docs.docker.com/go/compose-spec-reference/
