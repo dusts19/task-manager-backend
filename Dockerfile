@@ -25,6 +25,8 @@ WORKDIR /home/appuser/app
 COPY --from=builder /app/target/task-manager-0.0.1-SNAPSHOT.jar app.jar
 #COPY target/*.jar app.jar
 
+ENV PORT=8080
+
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/home/appuser/app/app.jar"]
