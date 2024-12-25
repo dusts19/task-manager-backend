@@ -25,9 +25,11 @@ import com.example.taskmanager.service.CustomUserDetailsService;
 public class SecurityConfig{
 	
 	private final JwtFilter jwtFilter;
+	private final CustomUserDetailsService customUserDetailsService;
 	
-	public SecurityConfig(JwtFilter jwtFilter) {
+	public SecurityConfig(JwtFilter jwtFilter, CustomUserDetailsService customUserDetailsService) {
 		this.jwtFilter = jwtFilter;
+		this.customUserDetailsService = customUserDetailsService;
 	}
 	
 	
@@ -93,7 +95,7 @@ public class SecurityConfig{
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:3000");
+		config.addAllowedOrigin("http://localhost:3000, https://dailydirector.vercel.app/");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
