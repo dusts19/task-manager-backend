@@ -29,6 +29,6 @@ ENV PORT=8080
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/home/appuser/app/app.jar", "--server.port=${PORT}"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/urandom", "-jar", "/home/appuser/app/app.jar", "--server.port=${PORT}"]
 
 
