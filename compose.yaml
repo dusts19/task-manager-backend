@@ -20,7 +20,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       PORT: 8080
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:10000/actuator/health"]
       interval: 20s
       timeout: 60s
       retries: 5
