@@ -28,7 +28,7 @@ import com.example.taskmanager.service.UserService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://dailydirector.vercel.app/"})
 @RequestMapping("/api/tasks")
 public class TaskController {
 	

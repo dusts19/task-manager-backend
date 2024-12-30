@@ -64,7 +64,7 @@ public class SecurityConfig{
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:3000, https://dailydirector.vercel.app/");
+		config.addAllowedOrigin("http://localhost:3000, https://dailydirector.vercel.app/, https://task-manager-frontend-dusts19s-projects.vercel.app/");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);

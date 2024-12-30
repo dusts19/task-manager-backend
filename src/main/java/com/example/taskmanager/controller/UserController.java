@@ -22,7 +22,7 @@ import com.example.taskmanager.model.User;
 import com.example.taskmanager.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://dailydirector.vercel.app/"})
 @RequestMapping("/api/users")
 public class UserController {
 	
