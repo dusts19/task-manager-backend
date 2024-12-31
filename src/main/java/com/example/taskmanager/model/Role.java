@@ -53,4 +53,20 @@ public class Role {
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<>();
+
+	public Role(RoleName name, Set<Permission> permissions) {
+		this.name = name;
+		this.permissions = permissions;
+		this.users = new HashSet<>();
+	}
+	
+//	public Role(RoleName name) {
+//		this.name = name;
+//		this.permissions = new HashSet<>();
+//		this.users = new HashSet<>();
+//		
+//		if (RoleName.USER == name) {
+//			permissions.add(new Permission("READ"));
+//		}
+//	}
 }

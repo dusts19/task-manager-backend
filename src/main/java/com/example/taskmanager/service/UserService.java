@@ -2,11 +2,13 @@ package com.example.taskmanager.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.taskmanager.model.Permission;
 import com.example.taskmanager.model.Role;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
@@ -50,8 +52,25 @@ public class UserService {
 		}
 		
 		if (user.getRoles().isEmpty()) {
-			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
+			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseGet(() -> {
+				Set<Permission> defaultPermissions = new HashSet<>();
+				Permission readPermission = new Permission("READ", new HashSet<>());
+				defaultPermissions.add(readPermission);
+				Permission writePermission = new Permission("WRITE", new HashSet<>());
+				defaultPermissions.add(writePermission);
+				
+				Role newRole = new Role(Role.RoleName.USER, defaultPermissions);
+				
+				rRepo.save(newRole);
+				
+				for (Permission permission : defaultPermissions) {
+					permission.getRoles().add(newRole);
+				}				
+				return newRole;
+			});
+//			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
 			user.getRoles().add(userRole);
+		
 		}
 		
 		System.out.println("User roles before saving: " + user.getRoles());

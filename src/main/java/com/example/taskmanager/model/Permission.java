@@ -33,4 +33,9 @@ public class Permission {
 	
 	@ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<Role> roles = new HashSet<>();
+	
+	public Permission(String name, Set<Role> roles) {
+		this.name = name;
+		this.roles = roles;
+	}
 }
