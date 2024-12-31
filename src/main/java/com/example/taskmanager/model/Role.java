@@ -7,6 +7,7 @@ import java.util.Set;
 import com.example.taskmanager.model.Task.Priority;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,6 +35,7 @@ public class Role {
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, unique = true)
 	private RoleName name;
 	
 	
