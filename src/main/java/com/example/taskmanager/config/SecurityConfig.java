@@ -1,5 +1,8 @@
 package com.example.taskmanager.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -89,19 +92,29 @@ public class SecurityConfig{
             .and()
             .build();
     }
-	
+//	
+//	private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		CorsConfiguration config = new CorsConfiguration();
+//		config.setAllowCredentials(true);
+//		config.addAllowedOrigin("http://localhost:3000");
+//		config.addAllowedOrigin("https://dailydirector.vercel.app");
+//		config.addAllowedHeader("*");
+//		config.addAllowedMethod("*");
+//		source.registerCorsConfiguration("/**", config);
+//		return source;
+//	}
+
 	private UrlBasedCorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:3000");
-		config.addAllowedOrigin("https://dailydirector.vercel.app");
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
+		config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://dailydirector.vercel.app"));
+		config.setAllowedHeaders(Arrays.asList("content-type"));
+		config.setAllowedMethods(Arrays.asList("*"));
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
-	
 	
 //	@Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
