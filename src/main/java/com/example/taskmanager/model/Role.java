@@ -31,9 +31,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "app_role")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id")
+//@JsonIdentityInfo(
+//		generator = ObjectIdGenerators.PropertyGenerator.class,
+//		property = "id")
 public class Role {
 	
 	@Id
@@ -59,7 +59,7 @@ public class Role {
 	}
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//	@JsonBackReference
+	@JsonBackReference
 	private Set<User> users = new HashSet<>();
 
 	public Role(RoleName name, Set<Permission> permissions) {
