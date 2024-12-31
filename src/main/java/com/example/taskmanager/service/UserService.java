@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.taskmanager.model.Permission;
 import com.example.taskmanager.model.Role;
@@ -44,6 +45,7 @@ public class UserService {
 				.orElseThrow(() -> new RuntimeException("User not found"));
 	}
 	
+	@Transactional
 	public User createUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		

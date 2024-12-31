@@ -58,7 +58,7 @@ public class Role {
 		OWNER
 	}
 	
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonBackReference
 	private Set<User> users = new HashSet<>();
 
