@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.example.taskmanager.model.Task.Priority;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,7 +36,6 @@ public class Role {
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, unique = true)
 	private RoleName name;
 	
 	
@@ -53,7 +53,8 @@ public class Role {
 		OWNER
 	}
 	
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+	@JsonBackReference
 	private Set<User> users = new HashSet<>();
 
 	public Role(RoleName name, Set<Permission> permissions) {
