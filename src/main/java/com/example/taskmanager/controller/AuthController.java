@@ -21,7 +21,7 @@ import com.example.taskmanager.service.UserService;
 import com.example.taskmanager.util.JwtUtil;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://dailydirector.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://dailydirector.vercel.app"})
 @RequestMapping("/api/auth")
 public class AuthController {
 	

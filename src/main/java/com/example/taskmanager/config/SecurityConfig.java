@@ -52,7 +52,7 @@ public class SecurityConfig{
         	.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/actuator/**", "/api/auth/**", "/api/auth/register", "/api/auth/login").permitAll()
+                    .requestMatchers("/**", "/actuator/**", "/api/auth/**", "/api/auth/register", "/api/auth/login").permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -95,7 +95,7 @@ public class SecurityConfig{
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.addAllowedOrigin("http://localhost:3000");
-		config.addAllowedOrigin("https://dailydirector.vercel.app/");
+		config.addAllowedOrigin("https://dailydirector.vercel.app");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
