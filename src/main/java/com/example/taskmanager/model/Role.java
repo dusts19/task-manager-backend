@@ -53,7 +53,7 @@ public class Role {
 		OWNER
 	}
 	
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	@JsonBackReference
 	private Set<User> users = new HashSet<>();
 

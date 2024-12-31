@@ -51,7 +51,7 @@ public class User {
 //	private Set<Role> roles = new HashSet<>();
 	
 //	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 		name = "user_roles",
 		joinColumns = @JoinColumn(name = "user_id"),
