@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.example.taskmanager.model.Task.Priority;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,6 +25,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "id")
 public class Permission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

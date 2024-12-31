@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.example.taskmanager.model.Task.Priority;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,6 +31,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "app_role")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "id")
 public class Role {
 	
 	@Id
@@ -54,7 +59,7 @@ public class Role {
 	}
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	@JsonBackReference
+//	@JsonBackReference
 	private Set<User> users = new HashSet<>();
 
 	public Role(RoleName name, Set<Permission> permissions) {
