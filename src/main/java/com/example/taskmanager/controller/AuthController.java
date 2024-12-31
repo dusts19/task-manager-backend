@@ -35,7 +35,7 @@ public class AuthController {
 	private JwtUtil jwtUtil;
 	
 	
-	@PostMapping("/register")
+	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<JwtResponse> registerUser(@RequestBody User user) {
 		User createdUser = service.createUser(user);
 		String token = jwtUtil.generateToken(createdUser.getUsername());
