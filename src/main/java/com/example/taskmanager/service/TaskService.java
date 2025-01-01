@@ -2,10 +2,12 @@ package com.example.taskmanager.service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.taskmanager.dto.TaskDTO;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.TaskRepo;
@@ -21,9 +23,17 @@ public class TaskService {
 	@Autowired
 	UserService userService;
 	
+//	@Transactional
+//	public List<Task> getTasksByUser(User user) {
+//		return repo.findByUser(user);
+//	}
 	@Transactional
-	public List<Task> getTasksByUser(User user) {
-		return repo.findByUser(user);
+	public List<TaskDTO> getTasksByUser(User user) {
+		List<Task> tasks = repo.findByUser(user);
+		List<TaskDTO> taskDTOs = tasks.stream()
+				.map(task -> new TaskDTO(task.getTaskid(), task.getTasktitle(), task.getTaskdescription(), task.isTaskcompleted(), task.getTaskpriority()))
+				.collect(Collectors.toList());
+		return taskDTOs;
 	}
 	
 	public List<Task> getTasksByUserAndTitle(User user, String tasktitle){

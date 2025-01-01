@@ -3,13 +3,28 @@ package com.example.taskmanager.dto;
 import com.example.taskmanager.model.Task;
 
 public class TaskDTO {
+	private long taskid;
 	private String tasktitle;
 	private String taskdescription;
 	private boolean taskcompleted;
 	private Task.Priority taskpriority;
-	private long userid;
+//	private long userid;
 	
+	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority) {
+		this.taskid = taskid;
+		this.tasktitle = tasktitle;
+		this.taskdescription = taskdescription;
+		this.taskcompleted = taskcompleted;
+		this.taskpriority = taskpriority;
+	}
+
 	
+	public long getTaskid() {
+		return taskid;
+	}
+	public void setTaskid(long taskid) {
+		this.taskid = taskid;
+	}
 	public String getTasktitle() {
 		return tasktitle;
 	}
@@ -34,12 +49,12 @@ public class TaskDTO {
 	public void setTaskpriority(Task.Priority taskpriority) {
 		this.taskpriority = taskpriority;
 	}
-	public long getUserid() {
-		return userid;
-	}
-	public void setUserid(long userid) {
-		this.userid = userid;
-	}
+//	public long getUserid() {
+//		return userid;
+//	}
+//	public void setUserid(long userid) {
+//		this.userid = userid;
+//	}
 	
 	
 	

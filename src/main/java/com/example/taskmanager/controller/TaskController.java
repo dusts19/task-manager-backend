@@ -33,10 +33,15 @@ import com.example.taskmanager.service.UserService;
 public class TaskController {
 	
 	@Autowired
-	TaskService tService;
+	private final TaskService tService;
 	
 	@Autowired
-	UserService uService;
+	private final UserService uService;
+	
+	public TaskController(TaskService tService, UserService uService) {
+		this.tService = tService;
+		this.uService = uService;
+	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Task>> getTasks() {
@@ -46,9 +51,9 @@ public class TaskController {
 	
 	
 	@GetMapping
-	public ResponseEntity<List<Task>> getTasksByUser(@AuthenticationPrincipal UserDetails userDetails) {
+	public ResponseEntity<List<TaskDTO>> getTasksByUser(@AuthenticationPrincipal UserDetails userDetails) {
 		User user = uService.findByUsername(userDetails.getUsername());
-		List<Task> tasks = tService.getTasksByUser(user);
+		List<TaskDTO> tasks = tService.getTasksByUser(user);
 		return ResponseEntity.ok(tasks);
 	}
 	
@@ -73,7 +78,8 @@ public class TaskController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		
-		User user = uService.getUserById(taskDTO.getUserid());
+//		User user = uService.getUserById(taskDTO.getUserid());
+		User user = uService.findByUsername(userDetails.getUsername());
 		if (user == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
