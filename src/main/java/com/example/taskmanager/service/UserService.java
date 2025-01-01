@@ -41,7 +41,7 @@ public class UserService {
 		return uRepo.findById(id).orElse(new User());
 	}
 	
-
+	@Transactional
 	public User findByUsername(String username) {
 		User user = uRepo.findByUsername(username)
 				.orElseThrow(() -> new RuntimeException("User not found"));
