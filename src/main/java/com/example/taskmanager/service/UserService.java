@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,10 +41,18 @@ public class UserService {
 		return uRepo.findById(id).orElse(new User());
 	}
 	
+
 	public User findByUsername(String username) {
-		return uRepo.findByUsername(username)
+		User user = uRepo.findByUsername(username)
 				.orElseThrow(() -> new RuntimeException("User not found"));
+		Hibernate.initialize(user.getTasks());
+		return user;
 	}
+	
+//	public User findByUsername(String username) {
+//		return uRepo.findByUsername(username)
+//				.orElseThrow(() -> new RuntimeException("User not found"));
+//	}
 	
 	@Transactional
 	public User createUser(User user) {
