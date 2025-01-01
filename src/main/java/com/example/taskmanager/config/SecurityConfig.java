@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+//import org.springframework.web.filter.CorsFilter;
 
 import com.example.taskmanager.filter.JwtFilter;
 import com.example.taskmanager.service.CustomUserDetailsService;
@@ -110,8 +110,8 @@ public class SecurityConfig{
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://dailydirector.vercel.app"));
-		config.setAllowedHeaders(Arrays.asList("content-type"));
-		config.setAllowedMethods(Arrays.asList("*"));
+		config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
