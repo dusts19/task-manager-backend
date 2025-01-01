@@ -35,9 +35,9 @@ public class Task {
 	@Column(nullable = false)
 	private boolean taskcompleted;
 	
+//	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@JsonBackReference
 	private User user;
 	
 	@Enumerated(EnumType.STRING)
