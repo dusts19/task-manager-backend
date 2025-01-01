@@ -10,6 +10,8 @@ import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.TaskRepo;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class TaskService {
 	
@@ -19,6 +21,7 @@ public class TaskService {
 	@Autowired
 	UserService userService;
 	
+	@Transactional
 	public List<Task> getTasksByUser(User user) {
 		return repo.findByUser(user);
 	}
