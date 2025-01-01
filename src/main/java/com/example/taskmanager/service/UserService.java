@@ -74,6 +74,9 @@ public class UserService {
 			user.getRoles().add(userRole);
 		
 		}
+		for (Role role : user.getRoles()) {
+			role.getUsers().size();
+		}
 		
 		System.out.println("User roles before saving: " + user.getRoles());
 		

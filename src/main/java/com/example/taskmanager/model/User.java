@@ -66,7 +66,7 @@ public class User {
 	@JsonManagedReference
 	private Set<Role> roles = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<Task> tasks = new ArrayList<>();
 	
