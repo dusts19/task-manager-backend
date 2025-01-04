@@ -95,16 +95,24 @@ public class TaskController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
 	}
 	
-	
-	
-	@PutMapping
-	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+
+	@PutMapping("/{taskId}")
+	public ResponseEntity<Task> updateTask(@PathVariable long taskId, @RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
 		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
+		task.setTaskid(taskId);
 		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
 		return ResponseEntity.ok(updatedTask);
 	}
+//	@PutMapping
+//	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+//		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//		}
+//		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
+//		return ResponseEntity.ok(updatedTask);
+//	}
 	
 	@DeleteMapping("/{taskId}")
 	public ResponseEntity<Void> deleteTask(@PathVariable long taskId) {
