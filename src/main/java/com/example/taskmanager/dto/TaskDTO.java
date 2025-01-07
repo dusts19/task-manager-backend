@@ -8,14 +8,22 @@ public class TaskDTO {
 	private String taskdescription;
 	private boolean taskcompleted;
 	private Task.Priority taskpriority;
-//	private long userid;
+	private long userid;
 	
-	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority) {
+//	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority) {
+//		this.taskid = taskid;
+//		this.tasktitle = tasktitle;
+//		this.taskdescription = taskdescription;
+//		this.taskcompleted = taskcompleted;
+//		this.taskpriority = taskpriority;
+//	}
+	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority, long userid) {
 		this.taskid = taskid;
 		this.tasktitle = tasktitle;
 		this.taskdescription = taskdescription;
 		this.taskcompleted = taskcompleted;
 		this.taskpriority = taskpriority;
+		this.userid = userid;
 	}
 
 	
@@ -49,12 +57,12 @@ public class TaskDTO {
 	public void setTaskpriority(Task.Priority taskpriority) {
 		this.taskpriority = taskpriority;
 	}
-//	public long getUserid() {
-//		return userid;
-//	}
-//	public void setUserid(long userid) {
-//		this.userid = userid;
-//	}
+	public long getUserid() {
+		return userid;
+	}
+	public void setUserid(long userid) {
+		this.userid = userid;
+	}
 	
 	
 	

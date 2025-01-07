@@ -97,13 +97,23 @@ public class TaskController {
 	
 
 	@PutMapping("/{taskId}")
-	public ResponseEntity<Task> updateTask(@PathVariable long taskId, @RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
+	public ResponseEntity<TaskDTO> updateTask(@PathVariable long taskId, @RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
 		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		task.setTaskid(taskId);
 		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
-		return ResponseEntity.ok(updatedTask);
+		
+		TaskDTO taskDTO = new TaskDTO(
+				updatedTask.getTaskid(),
+				updatedTask.getTasktitle(),
+				updatedTask.getTaskdescription(),
+				updatedTask.isTaskcompleted(),
+				updatedTask.getTaskpriority(),
+				updatedTask.getUser().getId()
+		);
+		
+		return ResponseEntity.ok(taskDTO);
 	}
 //	@PutMapping
 //	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {

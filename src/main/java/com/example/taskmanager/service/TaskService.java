@@ -31,7 +31,7 @@ public class TaskService {
 	public List<TaskDTO> getTasksByUser(User user) {
 		List<Task> tasks = repo.findByUser(user);
 		List<TaskDTO> taskDTOs = tasks.stream()
-				.map(task -> new TaskDTO(task.getTaskid(), task.getTasktitle(), task.getTaskdescription(), task.isTaskcompleted(), task.getTaskpriority()))
+				.map(task -> new TaskDTO(task.getTaskid(), task.getTasktitle(), task.getTaskdescription(), task.isTaskcompleted(), task.getTaskpriority(), task.getUser().getId()))
 				.collect(Collectors.toList());
 		return taskDTOs;
 	}
