@@ -97,14 +97,24 @@ public class TaskController {
 	
 
 	@PutMapping("/{taskId}")
-	public ResponseEntity<TaskDTO> updateTask(@PathVariable long taskId, @RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
-		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
+	public ResponseEntity<TaskDTO> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
+		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
+		
+		User user = uService.findByUsername(userDetails.getUsername());
+		
+		Task task = new Task();
 		task.setTaskid(taskId);
+		task.setTasktitle(taskDTO.getTasktitle());
+		task.setTaskdescription(taskDTO.getTaskdescription());
+		task.setTaskcompleted(taskDTO.isTaskcompleted());
+		task.setTaskpriority(taskDTO.getTaskpriority());
+		task.setUser(user);
+		
 		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
 		
-		TaskDTO taskDTO = new TaskDTO(
+		TaskDTO updatedTaskDTO = new TaskDTO(
 				updatedTask.getTaskid(),
 				updatedTask.getTasktitle(),
 				updatedTask.getTaskdescription(),
@@ -113,7 +123,7 @@ public class TaskController {
 				updatedTask.getUser().getId()
 		);
 		
-		return ResponseEntity.ok(taskDTO);
+		return ResponseEntity.ok(updatedTaskDTO);
 	}
 //	@PutMapping
 //	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
