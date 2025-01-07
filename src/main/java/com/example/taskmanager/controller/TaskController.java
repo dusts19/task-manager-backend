@@ -102,8 +102,8 @@ public class TaskController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		
-		User user = uService.findByUsername(userDetails.getUsername());
-		
+//		User user = uService.getUserById(task.getUserid());
+		User user = uService.findByUsername(userDetails.getUsername());
 		Task task = new Task();
 		task.setTaskid(taskId);
 		task.setTasktitle(taskDTO.getTasktitle());
