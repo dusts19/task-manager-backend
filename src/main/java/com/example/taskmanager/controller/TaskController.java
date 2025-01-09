@@ -94,37 +94,16 @@ public class TaskController {
 		Task createdTask = tService.addTask(task);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
 	}
-
-	@PutMapping("/{taskId}")
-	public ResponseEntity<Task> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
-		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-		
-//		User user = uService.getUserById(task.getUserid());
-		User user = uService.findByUsername(userDetails.getUsername());
-
-		Task task = new Task();
-		task.setTaskid(taskId);
-		task.setTasktitle(taskDTO.getTasktitle());
-		task.setTaskdescription(taskDTO.getTaskdescription());
-		task.setTaskcompleted(taskDTO.isTaskcompleted());
-		task.setTaskpriority(taskDTO.getTaskpriority());
-		task.setUser(user);
-		
-		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
-		
-		return ResponseEntity.ok(updatedTask);
-	}
 //
 //	@PutMapping("/{taskId}")
-//	public ResponseEntity<TaskDTO> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
+//	public ResponseEntity<Task> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
 //		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
 //			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 //		}
 //		
 ////		User user = uService.getUserById(task.getUserid());
-//		User user = uService.findByUsername(userDetails.getUsername());
+//		User user = uService.findByUsername(userDetails.getUsername());
+//
 //		Task task = new Task();
 //		task.setTaskid(taskId);
 //		task.setTasktitle(taskDTO.getTasktitle());
@@ -135,17 +114,38 @@ public class TaskController {
 //		
 //		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
 //		
-//		TaskDTO updatedTaskDTO = new TaskDTO(
-//				updatedTask.getTaskid(),
-//				updatedTask.getTasktitle(),
-//				updatedTask.getTaskdescription(),
-//				updatedTask.isTaskcompleted(),
-//				updatedTask.getTaskpriority(),
-//				updatedTask.getUser().getId()
-//		);
-//		
-//		return ResponseEntity.ok(updatedTaskDTO);
+//		return ResponseEntity.ok(updatedTask);
 //	}
+
+	@PutMapping("/{taskId}")
+	public ResponseEntity<TaskDTO> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
+		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+//		User user = uService.getUserById(task.getUserid());
+		User user = uService.findByUsername(userDetails.getUsername());
+		Task task = new Task();
+		task.setTaskid(taskId);
+		task.setTasktitle(taskDTO.getTasktitle());
+		task.setTaskdescription(taskDTO.getTaskdescription());
+		task.setTaskcompleted(taskDTO.isTaskcompleted());
+		task.setTaskpriority(taskDTO.getTaskpriority());
+		task.setUser(user);
+		
+		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
+		
+		TaskDTO updatedTaskDTO = new TaskDTO(
+				updatedTask.getTaskid(),
+				updatedTask.getTasktitle(),
+				updatedTask.getTaskdescription(),
+				updatedTask.isTaskcompleted(),
+				updatedTask.getTaskpriority(),
+				updatedTask.getUser().getId()
+		);
+		
+		return ResponseEntity.ok(updatedTaskDTO);
+	}
 //	@PutMapping
 //	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {
 //		if (task.getTasktitle() == null || task.getTaskdescription() == null) {
