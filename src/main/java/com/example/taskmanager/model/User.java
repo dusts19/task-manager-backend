@@ -67,7 +67,7 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//	@JsonManagedReference
+	@JsonManagedReference
 	private List<Task> tasks = new ArrayList<>();
 	
 //	public enum Role {

@@ -41,7 +41,7 @@ public class Task {
 	@Column(nullable = false)
 	private boolean taskcompleted;
 	
-//	@JsonBackReference
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
