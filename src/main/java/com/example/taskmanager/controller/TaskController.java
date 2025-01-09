@@ -24,16 +24,14 @@ import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
-import java.util.logging.*;
+
 
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "https://dailydirector.vercel.app"})
 @RequestMapping("/api/tasks")
 public class TaskController {
-		
-	private static final Logger logger = Logger.getLogger(TaskController.class.getName());
-
+	
 	@Autowired
 	private final TaskService tService;
 	
@@ -100,19 +98,12 @@ public class TaskController {
 	@PutMapping("/{taskId}")
 	public ResponseEntity<Task> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
 		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
-			logger.info("From backend- updateTasks - TaskDTO does not have title or description");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
-
-		User user = uService.getUserById(taskDTO.getUserid());
-		if (user == null) {
-			logger.info("User not found: " + taskDTO.getUserid());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-		}
-//		User user = uService.getUserById(task.getUserid());
-//		User user = uService.findByUsername(userDetails.getUsername());
-//		logger.info("From backend- updateTasks - User not found");
 		
+//		User user = uService.getUserById(task.getUserid());
+		User user = uService.findByUsername(userDetails.getUsername());
+
 		Task task = new Task();
 		task.setTaskid(taskId);
 		task.setTasktitle(taskDTO.getTasktitle());
