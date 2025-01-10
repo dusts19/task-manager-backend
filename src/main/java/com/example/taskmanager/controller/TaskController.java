@@ -73,7 +73,7 @@ public class TaskController {
 //	}
 
 	@PostMapping
-	public ResponseEntity<Task> addTask(@RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
+	public ResponseEntity<TaskDTO> addTask(@RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
 		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -90,9 +90,17 @@ public class TaskController {
 		task.setTaskpriority(taskDTO.getTaskpriority());
 		task.setUser(user);
 		
-		
 		Task createdTask = tService.addTask(task);
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+		
+		TaskDTO createdTaskDTO = new TaskDTO();
+		createdTaskDTO.setTaskid(createdTask.getTaskid());
+		createdTaskDTO.setTaskdescription(createdTask.getTaskdescription());
+		createdTaskDTO.setTaskcompleted(createdTask.isTaskcompleted());
+		createdTaskDTO.setTaskpriority(createdTask.getTaskpriority());
+		createdTaskDTO.setUserid(createdTask.getUser().getId());
+		
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdTaskDTO);
 	}
 
 //	@PutMapping("/{taskId}")

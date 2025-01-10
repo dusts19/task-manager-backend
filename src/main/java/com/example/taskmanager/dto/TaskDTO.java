@@ -1,7 +1,16 @@
 package com.example.taskmanager.dto;
 
 import com.example.taskmanager.model.Task;
+import com.example.taskmanager.model.User;
+import com.example.taskmanager.model.Task.Priority;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+//@AllArgsConstructor
+@NoArgsConstructor
 public class TaskDTO {
 	private long taskid;
 	private String tasktitle;
