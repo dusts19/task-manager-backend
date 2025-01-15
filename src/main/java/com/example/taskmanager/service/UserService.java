@@ -46,7 +46,7 @@ public class UserService {
 	@Transactional
 	public User findByUsername(String username) {
 		User user = uRepo.findByUsername(username)
-				.orElseThrow(() -> new RuntimeException("User not found"));
+				.orElseThrow(() -> new UserNotFoundException("User not found"));
 		Hibernate.initialize(user.getTasks());
 		return user;
 	}
@@ -98,7 +98,7 @@ public class UserService {
 //	}
 
 	public User updateUser(long id, User user) {
-		User existingUser = uRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		User existingUser = uRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 		existingUser.setUsername(user.getUsername());
 		existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		
@@ -113,7 +113,7 @@ public class UserService {
 	}
 	
 	public Task createTaskForUser(long id, Task task) {
-		User user = uRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = uRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 		task.setUser(user);
 		return tRepo.save(task);
 	}
@@ -121,10 +121,6 @@ public class UserService {
 	public User authenticateUser(String username, String password) {
 		User user = uRepo.findByUsername(username)
 				.orElseThrow(() -> new InvalidCredentialsException("Invalid username or password"));
-		
-		if (user == null) {
-			throw new UserNotFoundException(username);
-		}
 		
 		if (passwordEncoder.matches(password, user.getPassword())) {
 			return user;

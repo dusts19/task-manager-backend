@@ -82,6 +82,7 @@ public class AuthController {
 			User user = service.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
 			String token = jwtUtil.generateToken(user.getUsername());
 			return ResponseEntity.ok(new JwtResponse(token));
+			
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(
 				new ErrorResponse("User not found", e.getMessage()), 
