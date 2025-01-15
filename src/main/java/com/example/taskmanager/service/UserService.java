@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.taskmanager.exceptions.InvalidCredentialsException;
+import com.example.taskmanager.exceptions.UserNotFoundException;
 import com.example.taskmanager.model.Permission;
 import com.example.taskmanager.model.Role;
 import com.example.taskmanager.model.Task;
@@ -118,12 +120,16 @@ public class UserService {
 	
 	public User authenticateUser(String username, String password) {
 		User user = uRepo.findByUsername(username)
-				.orElseThrow(() -> new RuntimeException("Invalid credentials"));
+				.orElseThrow(() -> new InvalidCredentialsException("Invalid username or password"));
+		
+		if (user == null) {
+			throw new UserNotFoundException(username);
+		}
 		
 		if (passwordEncoder.matches(password, user.getPassword())) {
 			return user;
 		} else {
-			throw new RuntimeException("Invalid credentials");
+			throw new InvalidCredentialsException("Invalid username or password");
 		}
 		
 	}

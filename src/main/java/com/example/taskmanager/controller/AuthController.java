@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.taskmanager.dto.JwtResponse;
 import com.example.taskmanager.dto.LoginRequest;
+import com.example.taskmanager.exceptions.InvalidCredentialsException;
+import com.example.taskmanager.exceptions.UserNotFoundException;
 import com.example.taskmanager.model.User;
+import com.example.taskmanager.responses.ErrorResponse;
 //import com.example.taskmanager.model.User.Role;
 import com.example.taskmanager.service.UserService;
 import com.example.taskmanager.util.JwtUtil;
@@ -62,13 +65,35 @@ public class AuthController {
 //		response.put("user", createdUser);
 //		return ResponseEntity.ok(response);
 //	}
+
+
+	
+//	@PostMapping("/login")
+//	public ResponseEntity<JwtResponse> loginUser(@RequestBody LoginRequest loginRequest){
+//		User user = service.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+//		String token = jwtUtil.generateToken(user.getUsername());
+//		return ResponseEntity.ok(new JwtResponse(token));
+//	}
 //	
 
 	@PostMapping("/login")
-	public ResponseEntity<JwtResponse> loginUser(@RequestBody LoginRequest loginRequest){
-		User user = service.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
-		String token = jwtUtil.generateToken(user.getUsername());
-		return ResponseEntity.ok(new JwtResponse(token));
+	public ResponseEntity<Object> loginUser(@RequestBody LoginRequest loginRequest){
+		try {
+			User user = service.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+			String token = jwtUtil.generateToken(user.getUsername());
+			return ResponseEntity.ok(new JwtResponse(token));
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(
+				new ErrorResponse("User not found", e.getMessage()), 
+				HttpStatus.NOT_FOUND
+			);
+		} catch (InvalidCredentialsException e) {
+			return new ResponseEntity<>(
+				new ErrorResponse("Invalid credentials", e.getMessage()),
+				HttpStatus.UNAUTHORIZED
+			);
+		}
+		
 	}
 	
 //	
