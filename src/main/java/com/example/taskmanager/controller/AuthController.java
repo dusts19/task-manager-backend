@@ -83,11 +83,6 @@ public class AuthController {
 			String token = jwtUtil.generateToken(user.getUsername());
 			return ResponseEntity.ok(new JwtResponse(token));
 			
-		} catch (UserNotFoundException e) {
-			return new ResponseEntity<>(
-				new ErrorResponse("User not found", e.getMessage()), 
-				HttpStatus.NOT_FOUND
-			);
 		} catch (InvalidCredentialsException e) {
 			return new ResponseEntity<>(
 				new ErrorResponse("Invalid credentials", e.getMessage()),
