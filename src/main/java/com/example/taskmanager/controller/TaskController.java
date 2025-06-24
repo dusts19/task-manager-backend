@@ -28,14 +28,12 @@ import com.example.taskmanager.service.UserService;
 
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://dailydirector.vercel.app"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://taskmanager.vercel.app"})
 @RequestMapping("/api/tasks")
 public class TaskController {
 	
-	@Autowired
 	private final TaskService tService;
 	
-	@Autowired
 	private final UserService uService;
 	
 	public TaskController(TaskService tService, UserService uService) {
@@ -86,17 +84,22 @@ public class TaskController {
 		Task task = new Task();
 		task.setTasktitle(taskDTO.getTasktitle());
 		task.setTaskdescription(taskDTO.getTaskdescription());
-		task.setTaskcompleted(taskDTO.isTaskcompleted());
+		task.setTaskcategory(taskDTO.getTaskcategory());
+		task.setDueDate(taskDTO.getDueDate());
 		task.setTaskpriority(taskDTO.getTaskpriority());
+		task.setTaskcompleted(taskDTO.isTaskcompleted());
 		task.setUser(user);
 		
 		Task createdTask = tService.addTask(task);
 		
 		TaskDTO createdTaskDTO = new TaskDTO();
 		createdTaskDTO.setTaskid(createdTask.getTaskid());
+		createdTaskDTO.setTasktitle(createdTask.getTasktitle());
 		createdTaskDTO.setTaskdescription(createdTask.getTaskdescription());
-		createdTaskDTO.setTaskcompleted(createdTask.isTaskcompleted());
+		createdTaskDTO.setTaskcategory(createdTask.getTaskcategory());
+		createdTaskDTO.setDueDate(createdTask.getDueDate());
 		createdTaskDTO.setTaskpriority(createdTask.getTaskpriority());
+		createdTaskDTO.setTaskcompleted(createdTask.isTaskcompleted());
 		createdTaskDTO.setUserid(createdTask.getUser().getId());
 		
 		
@@ -135,27 +138,74 @@ public class TaskController {
 		
 //		User user = uService.getUserById(task.getUserid());
 		User user = uService.findByUsername(userDetails.getUsername());
-		Task task = new Task();
-		task.setTaskid(taskId);
-		task.setTasktitle(taskDTO.getTasktitle());
-		task.setTaskdescription(taskDTO.getTaskdescription());
-		task.setTaskcompleted(taskDTO.isTaskcompleted());
-		task.setTaskpriority(taskDTO.getTaskpriority());
-		task.setUser(user);
+		Task existingTask = tService.getTaskById(taskId);
+		if (existingTask == null || existingTask.getUser() == null || existingTask.getUser().getId() != user.getId()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 		
-		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
+		existingTask.setTasktitle(taskDTO.getTasktitle());
+		existingTask.setTaskdescription(taskDTO.getTaskdescription());
+		existingTask.setTaskcompleted(taskDTO.isTaskcompleted());
+		existingTask.setTaskcategory(taskDTO.getTaskcategory());
+		existingTask.setDueDate(taskDTO.getDueDate());
+		existingTask.setTaskpriority(taskDTO.getTaskpriority());
+		
+		Task updatedTask = tService.updateTask(existingTask, user.getUsername());
 		
 		TaskDTO updatedTaskDTO = new TaskDTO(
 				updatedTask.getTaskid(),
 				updatedTask.getTasktitle(),
 				updatedTask.getTaskdescription(),
 				updatedTask.isTaskcompleted(),
+				updatedTask.getTaskcategory(),
+				updatedTask.getCreatedAt(),
+				updatedTask.getDueDate(),
 				updatedTask.getTaskpriority(),
 				updatedTask.getUser().getId()
 		);
 		
 		return ResponseEntity.ok(updatedTaskDTO);
 	}
+
+//	@PutMapping("/{taskId}")
+//	public ResponseEntity<TaskDTO> updateTask(@PathVariable long taskId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal UserDetails userDetails) {
+//		if (taskDTO.getTasktitle() == null || taskDTO.getTaskdescription() == null) {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//		}
+//		
+////		User user = uService.getUserById(task.getUserid());
+//		User user = uService.findByUsername(userDetails.getUsername());
+//
+//		
+//		
+//		Task task = new Task();
+//		task.setTaskid(taskId);
+//		task.setTasktitle(taskDTO.getTasktitle());
+//		task.setTaskdescription(taskDTO.getTaskdescription());
+//		task.setTaskcompleted(taskDTO.isTaskcompleted());
+//		task.setTaskcategory(taskDTO.getTaskcategory());
+//		task.setCreatedAt(taskDTO.getCreatedAt());
+//		task.setDueDate(taskDTO.getDueDate());
+//		task.setTaskpriority(taskDTO.getTaskpriority());
+//		task.setUser(user);
+//		
+//		Task updatedTask = tService.updateTask(task, userDetails.getUsername());
+//		
+//		TaskDTO updatedTaskDTO = new TaskDTO(
+//				updatedTask.getTaskid(),
+//				updatedTask.getTasktitle(),
+//				updatedTask.getTaskdescription(),
+//				updatedTask.isTaskcompleted(),
+//				updatedTask.getTaskcategory(),
+//				updatedTask.getCreatedAt(),
+//				updatedTask.getDueDate(),
+//				updatedTask.getTaskpriority(),
+//				updatedTask.getUser().getId()
+//		);
+//		
+//		return ResponseEntity.ok(updatedTaskDTO);
+//	}
+	
 	
 //	@PutMapping
 //	public ResponseEntity<Task> updateTask(@RequestBody Task task, @AuthenticationPrincipal UserDetails userDetails) {

@@ -1,12 +1,17 @@
 package com.example.taskmanager.dto;
 
 import com.example.taskmanager.model.Task;
+
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.model.Task.Priority;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 @Data
 //@AllArgsConstructor
@@ -16,6 +21,9 @@ public class TaskDTO {
 	private String tasktitle;
 	private String taskdescription;
 	private boolean taskcompleted;
+	private String taskcategory;
+	private LocalDateTime createdAt;
+	private LocalDate dueDate;
 	private Task.Priority taskpriority;
 	private long userid;
 	
@@ -26,11 +34,14 @@ public class TaskDTO {
 //		this.taskcompleted = taskcompleted;
 //		this.taskpriority = taskpriority;
 //	}
-	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority, long userid) {
+	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, String taskcategory, LocalDateTime createdAt, LocalDate dueDate, Task.Priority taskpriority, long userid) {
 		this.taskid = taskid;
 		this.tasktitle = tasktitle;
 		this.taskdescription = taskdescription;
 		this.taskcompleted = taskcompleted;
+		this.taskcategory = taskcategory;
+		this.createdAt = createdAt;
+		this.dueDate = dueDate;
 		this.taskpriority = taskpriority;
 		this.userid = userid;
 	}
@@ -59,6 +70,24 @@ public class TaskDTO {
 	}
 	public void setTaskcompleted(boolean taskcompleted) {
 		this.taskcompleted = taskcompleted;
+	}
+	public String getTaskcategory() {
+		return taskcategory;
+	}
+	public void setTaskcategory(String taskcategory) {
+		this.taskcategory = taskcategory;
+	}
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	public LocalDate getDueDate() {
+		return dueDate;
+	}
+	public void setDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
 	}
 	public Task.Priority getTaskpriority() {
 		return taskpriority;

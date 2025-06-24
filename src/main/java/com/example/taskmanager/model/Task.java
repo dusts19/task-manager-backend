@@ -14,9 +14,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 //@Component
 @Entity
@@ -35,11 +39,21 @@ public class Task {
 	@Column(nullable = false)
 	private String tasktitle;
 	
-	@Column(nullable = false)
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String taskdescription;
 	
 	@Column(nullable = false)
 	private boolean taskcompleted;
+
+	@Column(nullable = false)
+	private String taskcategory = "General";
+
+	@Column(nullable = false, updatable = false)
+	private LocalDateTime createdAt;
+
+	@Column(nullable = false)
+	private LocalDate dueDate;
+	
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -54,4 +68,8 @@ public class Task {
 		LOW, MEDIUM, HIGH
 	}
 	
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDateTime.now();
+	}
 }
