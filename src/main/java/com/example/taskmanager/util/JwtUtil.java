@@ -4,6 +4,7 @@ import java.util.Date;
 import java.security.Key;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -18,7 +19,9 @@ import org.slf4j.LoggerFactory;
 @Component
 public class JwtUtil {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
-	private String secret = "life_is_great";
+	
+	@Value("${jwt.secret}")
+	private String secret;
 //	private Key key = Keys.hmacShaKeyFor(secret.getBytes());
 	private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 //	private Key key = new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
