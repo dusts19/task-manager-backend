@@ -25,6 +25,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,7 @@ import lombok.NoArgsConstructor;
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
 		property = "id")
+@Builder
 public class User {
 	
 	@Id
@@ -64,10 +66,12 @@ public class User {
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
+	@Builder.Default
 	private Set<Role> roles = new HashSet<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference
+	@Builder.Default
 	private List<Task> tasks = new ArrayList<>();
 	
 //	public enum Role {
