@@ -111,7 +111,7 @@ public class SecurityConfig{
 		config.setAllowCredentials(true);
 		config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://dailydirector.vercel.app"));
 		config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
-		config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"));
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}

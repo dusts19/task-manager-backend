@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.exceptions.InvalidCredentialsException;
 import com.example.taskmanager.exceptions.UserNotFoundException;
 import com.example.taskmanager.model.Permission;
@@ -23,32 +24,52 @@ import com.example.taskmanager.repository.UserRepo;
 @Service
 public class UserService {
 	
-	@Autowired
-	UserRepo uRepo;
+	private final UserRepo uRepo;
+	private final RoleRepo rRepo;
+	private final TaskRepo tRepo;
 	
-	@Autowired
-	RoleRepo rRepo;
+	public UserService (UserRepo uRepo, RoleRepo rRepo, TaskRepo tRepo) {
+		this.uRepo = uRepo;
+		this.rRepo = rRepo;
+		this.tRepo = tRepo;
+	}
 	
-	@Autowired
-	TaskRepo tRepo;
+//	@Autowired
+//	UserRepo uRepo;
+//	
+//	@Autowired
+//	RoleRepo rRepo;
+//	
+//	@Autowired
+//	TaskRepo tRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public List<User> getUsers(){
-		return uRepo.findAll();
+	public List<UserDTO> getUsers(){
+		return uRepo.findAll()
+				.stream()
+				.map(u -> new UserDTO(u.getId(), u.getUsername()))
+				.toList();
+		
 	}
 	
 	public User getUserById(long id) {
 		return uRepo.findById(id).orElse(new User());
 	}
+
+	@Transactional(readOnly = true)
+	public User getUserEntityByUsername(String username) {
+		return uRepo.findByUsername(username)
+				.orElseThrow(() -> new UserNotFoundException("User not found"));
+		
+	}
 	
-	@Transactional
-	public User findByUsername(String username) {
+	@Transactional(readOnly = true)
+	public UserDTO getCurrentUserDTO(String username) {
 		User user = uRepo.findByUsername(username)
 				.orElseThrow(() -> new UserNotFoundException("User not found"));
-		Hibernate.initialize(user.getTasks());
-		return user;
+		return new UserDTO(user.getId(), user.getUsername());
 	}
 	
 //	public User findByUsername(String username) {
@@ -60,9 +81,7 @@ public class UserService {
 	public User createUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
-		if (user.getRoles() == null) {
-			user.setRoles(new HashSet<>());
-		}
+		user.setRoles(new HashSet<>());
 		
 		if (user.getRoles().isEmpty()) {
 			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseGet(() -> {
@@ -89,10 +108,47 @@ public class UserService {
 			role.getUsers().size();
 		}
 		
-		System.out.println("User roles before saving: " + user.getRoles());
+//		System.out.println("User roles before saving: " + user.getRoles());
 		
 		return uRepo.save(user);
 	}
+//	public User createUser(User user) {
+//		user.setPassword(passwordEncoder.encode(user.getPassword()));
+//		
+//		if (user.getRoles() == null) {
+//			user.setRoles(new HashSet<>());
+//		}
+//		
+//		if (user.getRoles().isEmpty()) {
+//			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseGet(() -> {
+//				Set<Permission> defaultPermissions = new HashSet<>();
+//				Permission readPermission = new Permission("READ", new HashSet<>());
+//				defaultPermissions.add(readPermission);
+//				Permission writePermission = new Permission("WRITE", new HashSet<>());
+//				defaultPermissions.add(writePermission);
+//				
+//				Role newRole = new Role(Role.RoleName.USER, defaultPermissions);
+//				
+//				rRepo.save(newRole);
+//				
+//				for (Permission permission : defaultPermissions) {
+//					permission.getRoles().add(newRole);
+//				}				
+//				return newRole;
+//			});
+////			Role userRole = rRepo.findByName(Role.RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
+//			user.getRoles().add(userRole);
+//		
+//		}
+//		for (Role role : user.getRoles()) {
+//			role.getUsers().size();
+//		}
+//		
+////		System.out.println("User roles before saving: " + user.getRoles());
+//		
+//		return uRepo.save(user);
+//	}
+	
 //	public void addUser(User user) {
 //		uRepo.save(user);
 //	}

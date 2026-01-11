@@ -17,19 +17,25 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 //@Component
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "taskid")
+//@JsonIdentityInfo(
+//		generator = ObjectIdGenerators.PropertyGenerator.class,
+//		property = "taskid")
 public class Task {
 	
 	@Id
@@ -55,7 +61,7 @@ public class Task {
 	private LocalDate dueDate;
 	
 	
-	@JsonBackReference
+//	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;

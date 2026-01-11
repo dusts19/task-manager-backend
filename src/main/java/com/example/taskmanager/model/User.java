@@ -27,16 +27,21 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "app_user")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id")
+//@JsonIdentityInfo(
+//		generator = ObjectIdGenerators.PropertyGenerator.class,
+//		property = "id")
 @Builder
 public class User {
 	
@@ -60,7 +65,7 @@ public class User {
 //	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //	@JsonManagedReference
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 		name = "user_roles",
 		joinColumns = @JoinColumn(name = "user_id"),
@@ -69,8 +74,8 @@ public class User {
 	@Builder.Default
 	private Set<Role> roles = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//	@JsonManagedReference
 	@Builder.Default
 	private List<Task> tasks = new ArrayList<>();
 	

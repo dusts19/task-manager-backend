@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 
 @Data
-//@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 public class TaskDTO {
 	private long taskid;
@@ -27,81 +27,82 @@ public class TaskDTO {
 	private Task.Priority taskpriority;
 	private long userid;
 	
-//	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority) {
+////	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, Task.Priority taskpriority) {
+////		this.taskid = taskid;
+////		this.tasktitle = tasktitle;
+////		this.taskdescription = taskdescription;
+////		this.taskcompleted = taskcompleted;
+////		this.taskpriority = taskpriority;
+////	}
+//	
+//	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, String taskcategory, LocalDateTime createdAt, LocalDate dueDate, Task.Priority taskpriority, long userid) {
 //		this.taskid = taskid;
 //		this.tasktitle = tasktitle;
 //		this.taskdescription = taskdescription;
 //		this.taskcompleted = taskcompleted;
+//		this.taskcategory = taskcategory;
+//		this.createdAt = createdAt;
+//		this.dueDate = dueDate;
+//		this.taskpriority = taskpriority;
+//		this.userid = userid;
+//	}
+//
+//	
+//	public long getTaskid() {
+//		return taskid;
+//	}
+//	public void setTaskid(long taskid) {
+//		this.taskid = taskid;
+//	}
+//	public String getTasktitle() {
+//		return tasktitle;
+//	}
+//	public void setTasktitle(String tasktitle) {
+//		this.tasktitle = tasktitle;
+//	}
+//	public String getTaskdescription() {
+//		return taskdescription;
+//	}
+//	public void setTaskdescription(String taskdescription) {
+//		this.taskdescription = taskdescription;
+//	}
+//	public boolean isTaskcompleted() {
+//		return taskcompleted;
+//	}
+//	public void setTaskcompleted(boolean taskcompleted) {
+//		this.taskcompleted = taskcompleted;
+//	}
+//	public String getTaskcategory() {
+//		return taskcategory;
+//	}
+//	public void setTaskcategory(String taskcategory) {
+//		this.taskcategory = taskcategory;
+//	}
+//	public LocalDateTime getCreatedAt() {
+//		return createdAt;
+//	}
+//	public void setCreatedAt(LocalDateTime createdAt) {
+//		this.createdAt = createdAt;
+//	}
+//	public LocalDate getDueDate() {
+//		return dueDate;
+//	}
+//	public void setDueDate(LocalDate dueDate) {
+//		this.dueDate = dueDate;
+//	}
+//	public Task.Priority getTaskpriority() {
+//		return taskpriority;
+//	}
+//	public void setTaskpriority(Task.Priority taskpriority) {
 //		this.taskpriority = taskpriority;
 //	}
-	public TaskDTO(long taskid, String tasktitle, String taskdescription, boolean taskcompleted, String taskcategory, LocalDateTime createdAt, LocalDate dueDate, Task.Priority taskpriority, long userid) {
-		this.taskid = taskid;
-		this.tasktitle = tasktitle;
-		this.taskdescription = taskdescription;
-		this.taskcompleted = taskcompleted;
-		this.taskcategory = taskcategory;
-		this.createdAt = createdAt;
-		this.dueDate = dueDate;
-		this.taskpriority = taskpriority;
-		this.userid = userid;
-	}
-
-	
-	public long getTaskid() {
-		return taskid;
-	}
-	public void setTaskid(long taskid) {
-		this.taskid = taskid;
-	}
-	public String getTasktitle() {
-		return tasktitle;
-	}
-	public void setTasktitle(String tasktitle) {
-		this.tasktitle = tasktitle;
-	}
-	public String getTaskdescription() {
-		return taskdescription;
-	}
-	public void setTaskdescription(String taskdescription) {
-		this.taskdescription = taskdescription;
-	}
-	public boolean isTaskcompleted() {
-		return taskcompleted;
-	}
-	public void setTaskcompleted(boolean taskcompleted) {
-		this.taskcompleted = taskcompleted;
-	}
-	public String getTaskcategory() {
-		return taskcategory;
-	}
-	public void setTaskcategory(String taskcategory) {
-		this.taskcategory = taskcategory;
-	}
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-	public LocalDate getDueDate() {
-		return dueDate;
-	}
-	public void setDueDate(LocalDate dueDate) {
-		this.dueDate = dueDate;
-	}
-	public Task.Priority getTaskpriority() {
-		return taskpriority;
-	}
-	public void setTaskpriority(Task.Priority taskpriority) {
-		this.taskpriority = taskpriority;
-	}
-	public long getUserid() {
-		return userid;
-	}
-	public void setUserid(long userid) {
-		this.userid = userid;
-	}
-	
+//	public long getUserid() {
+//		return userid;
+//	}
+//	public void setUserid(long userid) {
+//		this.userid = userid;
+//	}
+//	
 	
 	
 }

@@ -2,6 +2,7 @@ package com.example.taskmanager.model;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.example.taskmanager.model.Task.Priority;
@@ -24,16 +25,16 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "app_role")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id")
 public class Role {
 	
 	@Id

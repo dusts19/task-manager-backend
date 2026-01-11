@@ -1,5 +1,6 @@
 package com.example.taskmanager.service;
 
+import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.UserRepo;
 
@@ -28,11 +29,13 @@ public class UserServiceTest {
 	@Test
 	public void getUsers_returnsUserList() {
 		User user1 = User.builder()
+				.id(1L)				
 				.username("Check")
 				.password("pass1")
 				.email("check@email.com")
 				.build();
 		User user2 = User.builder()
+				.id(2L)
 				.username("Bob")
 				.password("pass2")
 				.email("bob@email.com")
@@ -40,7 +43,7 @@ public class UserServiceTest {
 		
 		when(userRepo.findAll()).thenReturn(Arrays.asList(user1, user2));
 		
-		List<User> result = userService.getUsers();
+		List<UserDTO> result = userService.getUsers();
 		
 		// Using JUnit
 //		assertEquals(2, result.size());
@@ -48,8 +51,17 @@ public class UserServiceTest {
 //		assertEquals("check@email.com", result.get(0).getEmail());
 		
 		assertThat(result).hasSize(2);
+		assertThat(result.get(0).getId()).isEqualTo(1L);
 		assertThat(result.get(0).getUsername()).isEqualTo("Check");
-		assertThat(result.get(0).getEmail()).isEqualTo("check@email.com");
+		assertThat(result.get(1).getId()).isEqualTo(2L);
+		assertThat(result.get(1).getUsername()).isEqualTo("Bob");
+	}
+	
+	@Test
+	public void getUsers_emptyList() {
+		when(userRepo.findAll()).thenReturn(List.of());
+		List<UserDTO> result = userService.getUsers();
+		assertThat(result).isEmpty();
 	}
 	
 }
