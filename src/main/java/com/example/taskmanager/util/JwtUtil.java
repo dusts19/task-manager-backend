@@ -1,6 +1,7 @@
 package com.example.taskmanager.util;
 
 import java.util.Date;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +24,16 @@ public class JwtUtil {
 	
 	@Value("${jwt.secret}")
 	private String secret;
+	
+	private Key key;
+
+	@PostConstruct
+	public void init() {
+		this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+	}
+	
 //	private Key key = Keys.hmacShaKeyFor(secret.getBytes());
-	private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//	private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 //	private Key key = new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
 	public String generateToken(String username) {
@@ -33,7 +43,7 @@ public class JwtUtil {
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
 				.signWith(key)
 				.compact();
-		logger.info("Generated Token: {}", token);
+//		logger.info("Generated Token: {}", token);
 		return token;
 	}
 //	public String generateToken(String username) {

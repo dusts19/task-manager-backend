@@ -41,3 +41,6 @@ secrets/db_password.txt
 secrets/db-url.txt
 secrets/db-username.txt
 secrets/db-password.txt
+
+
+dev_note.txt

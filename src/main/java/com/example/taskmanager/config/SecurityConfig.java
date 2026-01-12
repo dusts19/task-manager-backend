@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -54,8 +55,16 @@ public class SecurityConfig{
 //        	.cors(cors -> cors.disable())
         	.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                    .requestMatchers("/**", "/actuator/**", "/api/auth/**", "/api/auth/register", "/api/auth/login").permitAll()
+                authorizeRequests.requestMatchers(
+                		HttpMethod.OPTIONS, 
+                		"/**"
+                    ).permitAll()
+                    .requestMatchers(
+                		"/api/auth/**", 
+                		"/actuator/**"
+//                		"/api/auth/register", 
+//                		"/api/auth/login"
+                    ).permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -105,13 +114,16 @@ public class SecurityConfig{
 //		return source;
 //	}
 
-	private UrlBasedCorsConfigurationSource corsConfigurationSource() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	@Bean
+	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://dailydirector.vercel.app"));
-		config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
-		config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"));
+		config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type","X-Requested-With"));
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//		config.setExposedHeaders(List.of("Authorization"));
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}

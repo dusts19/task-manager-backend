@@ -48,8 +48,8 @@ public class JwtFilter extends OncePerRequestFilter{
 			token = authorizationHeader.substring(7);
 			Claims claims = jwtUtil.extractClaims(token);
 			username = claims.get("username", String.class);
-			logger.info("Token: {}", token);
-			logger.info("Username: {}", username);
+//			logger.info("Token: {}", token);
+//			logger.info("Username: {}", username);
 		}
 //		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 //			token = authorizationHeader.substring(7);
